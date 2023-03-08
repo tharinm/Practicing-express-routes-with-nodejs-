@@ -1,27 +1,20 @@
 const express = require('express');
+const viewuserRoutes = require('./routes/viewusers')
+const adduserRoutes=require('./routes/add-user')
 
 const app = express();
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const users = [];
+
 
 app.set('view engine', 'ejs');
-app.set('views', 'views')
+app.set('views', 'views');
 
-app.get('/', (req, res, next) => {
-    res.render('users', { docTitle: 'View Users',users:users });
-})
+app.use(viewuserRoutes);
+app.use('/add-user',adduserRoutes.routes)
 
-app.get('/add', (req, res, next) => {
-    res.render('add-user', { docTitle: 'Add User' });
-})
-
-app.post('/add-user', (req, res, next) => {
-    users.push({name:req.body.username})
-    res.redirect('/')
-})
 
 
 app.use((req, res, next) => {
